@@ -4,20 +4,25 @@
 
     function load_gist(url, user_content) {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', url + '.json', true);
-        xhr.onreadystatechange = () => {
-            if (xhr.readyState == 4) {
-                var result = JSON.parse(xhr.response);
-                if(!document.getElementById('_fgv_stylesheet_')) {
-                    var link = document.createElement('link');
-                    link.id = '_fgv_stylesheet_';
-                    link.rel = 'stylesheet';
-                    link.href = result.stylesheet;
-                    document.head.appendChild(link);
-                }
-                user_content.innerHTML += '<div style="width:100%; height:10px;"></div>' + result.div;
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState !== 4 || xhr.status !== 200)
+                return;
+
+            var result = JSON.parse(xhr.responseText);
+            if(!document.getElementById('_fgv_stylesheet_')) {
+                var link = document.createElement('link');
+                link.id = '_fgv_stylesheet_';
+                link.rel = 'stylesheet';
+                link.href = result.stylesheet;
+                document.head.appendChild(link);
             }
-        }
+            
+            var content = document.createElement('div');
+            content.style = 'width: 100%; height: 10px';
+            content.innerHTML = result.div;
+            user_content.appendChild(content);
+        };
+        xhr.open('GET', url + '.json', true);
         xhr.send();
     }
 
@@ -36,7 +41,7 @@
         }
     }
 
-    setInterval(()=>{
+    setInterval(function () {
         inject_gist(document.getElementsByClassName('userContent'));
     }, 300);
 })();
