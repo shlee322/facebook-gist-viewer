@@ -1,7 +1,7 @@
 # Facebook Gist Viewer
 Sexy github gist viewer on Facebook.
 
-[[https://github.com/shlee322/facebook-gist-viewer/blob/master/img/facebook_gist_viewer.png|alt=facebook_gist_viewer]]
+![facebook_gist_viewer.png](https://github.com/shlee322/facebook-gist-viewer/blob/master/facebook_gist_viewer.png)
 
 ## Homepage
 https://github.com/shlee322/facebook-gist-viewer
