@@ -30,7 +30,7 @@
 
             var re = new RegExp(GIST_URL_RE);
             var gist;
-            while(gist = re.exec(user_content.innerText)) {
+            while(gist = re.exec(user_content.innerHTML)) {
                 load_gist(gist[0], user_content);
             }
         }
