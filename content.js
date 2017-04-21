@@ -4,7 +4,6 @@
 
     function load_gist(url, user_content) {
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', url + '.json', true);
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4) {
                 var result = JSON.parse(xhr.response);
@@ -18,6 +17,7 @@
                 user_content.innerHTML += '<div style="width:100%; height:10px;"></div>' + result.div;
             }
         }
+        xhr.open('GET', url + '.json', true);
         xhr.send();
     }
 
