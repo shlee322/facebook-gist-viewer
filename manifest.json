@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Facebook Gist Viewer",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Sexy github gist viewer on Facebook.",
     "homepage_url": "https://github.com/shlee322/facebook-gist-viewer",
     "icons": {
