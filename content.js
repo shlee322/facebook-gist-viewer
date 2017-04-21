@@ -21,16 +21,22 @@
         xhr.send();
     }
 
+    function is_exist_gist_div(user_content, gist_url) {
+        var elements = user_content.getElementsByClassName('_fgv_div_');
+        for(var i=0; i<elements.length; i++) if(elements[i].getAttribute('data-gist-url') == gist_url) return true;
+        return false;
+    }
+
     function inject_gist(user_contents) {
         for(var user_content_i=0; user_content_i<user_contents.length; user_content_i++) {
             var user_content = user_contents[user_content_i];
 
-            if(user_content.innerHTML.indexOf('_fgv_div_') != -1) continue;
-            user_content.innerHTML += '<div class="_fgv_div_"></div>';
-
             var re = new RegExp(GIST_URL_RE);
             var gist;
             while(gist = re.exec(user_content.innerHTML)) {
+                if(is_exist_gist_div(user_content, gist[0])) continue;
+
+                user_content.innerHTML += '<div class="_fgv_div_" data-gist-url="' + gist[0] + '"></div>';
                 load_gist(gist[0], user_content);
             }
         }
