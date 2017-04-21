@@ -1,12 +1,12 @@
-(function(){
+(function() {
     var GIST_URL_RE = /https:\/\/gist.github.com\/[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}\/[\da-f]+/g;
     var jsonp_id = 0;
 
     function load_gist(url, user_content) {
         var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = () => {
+        xhr.onreadystatechange = function() {
             if (xhr.readyState !== 4 || xhr.status !== 200) return;
-            
+
             var result = JSON.parse(xhr.response);
             if(!document.getElementById('_fgv_stylesheet_')) {
                 var link = document.createElement('link');
@@ -16,7 +16,7 @@
                 document.head.appendChild(link);
             }
             user_content.innerHTML += '<div style="width:100%; height:10px;"></div>' + result.div;
-        }
+        };
         xhr.open('GET', url + '.json', true);
         xhr.send();
     }
@@ -42,7 +42,7 @@
         }
     }
 
-    setInterval(()=>{
+    setInterval(function() {
         inject_gist(document.getElementsByClassName('userContent'));
     }, 300);
 })();
