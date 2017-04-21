@@ -11,7 +11,7 @@
     },
     "content_scripts": [
         {
-            "js": ["content.js"],
+            "js": ["facebook-gist.user.js"],
             "matches": ["https://www.facebook.com/*"]
         }
     ],
