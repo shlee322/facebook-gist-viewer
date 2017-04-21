@@ -5,17 +5,17 @@
     function load_gist(url, user_content) {
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = () => {
-            if (xhr.readyState == 4) {
-                var result = JSON.parse(xhr.response);
-                if(!document.getElementById('_fgv_stylesheet_')) {
-                    var link = document.createElement('link');
-                    link.id = '_fgv_stylesheet_';
-                    link.rel = 'stylesheet';
-                    link.href = result.stylesheet;
-                    document.head.appendChild(link);
-                }
-                user_content.innerHTML += '<div style="width:100%; height:10px;"></div>' + result.div;
+            if (xhr.readyState !== 4 || xhr.status !== 200) return;
+            
+            var result = JSON.parse(xhr.response);
+            if(!document.getElementById('_fgv_stylesheet_')) {
+                var link = document.createElement('link');
+                link.id = '_fgv_stylesheet_';
+                link.rel = 'stylesheet';
+                link.href = result.stylesheet;
+                document.head.appendChild(link);
             }
+            user_content.innerHTML += '<div style="width:100%; height:10px;"></div>' + result.div;
         }
         xhr.open('GET', url + '.json', true);
         xhr.send();
