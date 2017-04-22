@@ -1,5 +1,5 @@
 (function() {
-    var GIST_URL_RE = /https:\/\/gist.github.com\/[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}\/[\da-f]+/g;
+    var GIST_URL_RE = /https:\/\/gist\.github\.com\/[A-Za-z\d](?:[A-Za-z\d]|-(?=[A-Za-z\d])){0,38}\/[\dA-Fa-f]+/g;
     var jsonp_id = 0;
 
     function load_gist(url, user_content) {
