@@ -1,12 +1,36 @@
+// ==UserScript==
+// @name Facebook Gist Viewer
+// @namespace https://github.com/shlee322/facebook-gist-viewer
+// @version 0.1.2
+// @description Sexy github gist viewer on Facebook.
+// @updateURL https://github.com/shlee322/facebook-gist-viewer/raw/master/facebook-gist.user.js
+// @grant GM_xmlhttpRequest
+// @include https://www.facebook.com/*
+// ==/UserScript==
+
 (function() {
     var GIST_URL_RE = /https:\/\/gist\.github\.com\/[A-Za-z\d](?:[A-Za-z\d]|-(?=[A-Za-z\d])){0,38}\/[\dA-Fa-f]+/g;
     var jsonp_id = 0;
 
-    function load_gist(url, user_content) {
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState !== 4 || xhr.status !== 200) return;
+    function doAjax(method, url, callback) {
+        if (window.GM_xmlhttpRequest) {
+            GM_xmlhttpRequest({
+                method: method,
+                url: url,
+                onload: callback,
+            });
+        } else {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState !== 4 || xhr.status !== 200) return;
+                callback(xhr);
+            };
+            xhr.open(method, url, true);
+        }
+    }
 
+    function load_gist(url, user_content) {
+        doAjax('GET', url + '.json', function(xhr) {
             var result = JSON.parse(xhr.response);
             if(!document.getElementById('_fgv_stylesheet_')) {
                 var link = document.createElement('link');
@@ -16,9 +40,7 @@
                 document.head.appendChild(link);
             }
             user_content.innerHTML += '<div style="width:100%; height:10px;"></div>' + result.div;
-        };
-        xhr.open('GET', url + '.json', true);
-        xhr.send();
+        });
     }
 
     function is_exist_gist_div(user_content, gist_url) {
@@ -32,8 +54,8 @@
             var user_content = user_contents[user_content_i];
 
             var re = new RegExp(GIST_URL_RE);
-            var gist;
-            while(gist = re.exec(user_content.innerHTML)) {
+            while(re.test(user_content.innerHTML)) {
+                var gist = new RegExp(GIST_URL_RE).exec(user_content.innerHTML);
                 if(is_exist_gist_div(user_content, gist[0])) continue;
 
                 user_content.innerHTML += '<div class="_fgv_div_" data-gist-url="' + gist[0] + '"></div>';
