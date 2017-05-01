@@ -22,6 +22,7 @@ MIT License
 ## Owner
 Sanghyeok Lee <shlee322@elab.kr>
 
-## Thanks to
+## Thanks to (Contributor)
 - nanhee <univ2018@naver.com>
 - Jeungwon An <kawoou@kawoou.kr>
+- Jeong Arm <kjwonmail@gmail.com>
